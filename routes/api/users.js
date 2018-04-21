@@ -58,4 +58,34 @@ router.post('/register',(req, res) => {
     });
 });
 
+/*@route GET /api/users/login */
+/*@desc Login User/Returning JWT token*/
+/*@access Public*/
+
+router.post('/login',(req, res, next) => {
+    /*Tap the email and password*/
+    const {email,password} = req.body;
+    /*Find user by email and match the plain text password
+    with the hash that is stored in the database*/
+    User.findOne({email})
+    .then(user => {
+        /*If no user exists pertaining to the email*/
+        if(!user){
+          return res.status(404).json({message : 'User does not exists!'});
+        }
+        /*If the user does exists as an entity in the database*/
+        bcrypt.compare(password,user.password,(err,isMatch) => {
+          if(err){
+            return res.status(400).json({message : 'Passwords do not match'});
+          }
+          /*If there is a match*/
+          if(isMatch){
+            res.json({message : 'You are now logged in'});
+          } 
+        }); 
+    });  
+});
+
+
+
 module.exports = router;
