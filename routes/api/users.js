@@ -5,6 +5,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
+/**Load the input validation**/ 
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
+
 // Load User Model
 
 const User = require('../../models/User');
@@ -24,13 +28,19 @@ router.get("/test", (req, res) => {
 /*@access Public*/
 
 router.post('/register',(req, res) => {
-    const {name,email,password} = req.body;
+
+    const {errors,isValid} = validateRegisterInput(req.body);
+      if(!isValid){
+        return res.status(400).json(errors);
+      }
+
     /*First check whether the user you are trying to register is already a registered one
     In that case don't allow*/
     User.findOne({email})
     .then(user => {
       if(user){
-        return res.status(400).json({message: 'Email is already in use'});
+        errors.email = 'Email already exists';
+        return res.status(400).json(errors);
       }else{
         /*Else case create new user*/
         const avatar = gravatar.url(email,{
@@ -38,13 +48,7 @@ router.post('/register',(req, res) => {
           r: 'pg', //rating
           d : 'mm' //default
         });
-        const newUser = new User({
-            name,
-            email,
-            avatar,
-            password
-        });
-
+        const newUser = new User({name,email,avatar,password});
         /*@desc Before storing the user to the database simple hash the password
         and then store it into the database*/
         bcrypt.genSalt(10,(err,salt)=> {
@@ -65,21 +69,24 @@ router.post('/register',(req, res) => {
 /*@access Public*/
 
 router.post('/login',(req, res, next) => {
-    /*Tap the email and password*/
+    const {errors,isValid} = validateLoginInput(req.body);
+    if(!isValid){
+      return res.status(400).json(errors);
+    }
+    /*Tap the email and password for the user*/ 
     const {email,password} = req.body;
+
     /*Find user by email and match the plain text password
     with the hash that is stored in the database*/
     User.findOne({email})
     .then(user => {
         /*If no user exists pertaining to the email*/
         if(!user){
-          return res.status(404).json({message : 'User does not exists!'});
+          errors.email = 'User not found'
+          return res.status(404).json(errors);
         }
         /*If the user does exists as an entity in the database*/
         bcrypt.compare(password,user.password,(err,isMatch) => {
-          if(err){
-            return res.status(400).json({message : 'Passwords do not match'});
-          }
           /*If there is a match*/
           if(isMatch){
               //User Matched
@@ -98,6 +105,10 @@ router.post('/login',(req, res, next) => {
                   token: 'Bearer' + token
                 });
               }); 
+          }else {
+            /*If the passwords do not match*/
+            errors.password = 'Password is incorrect';
+            return res.status(400).json(errors); 
           }
         }); 
     });  
