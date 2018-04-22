@@ -34,7 +34,7 @@ module.exports = function validateProfileInput(data){
         }
     } 
     /*Validate whether the twitter is a non-empty URL*/
-    if(!isEmpty(data.twiiter)){
+    if(!isEmpty(data.twitter)){
         if(!Validator.isURL(data.twitter)){
             errors.twitter = 'Not a valid URL';
         }
@@ -55,7 +55,7 @@ module.exports = function validateProfileInput(data){
     /*Validate whether the instagram is a non-empty URL*/
     if(!isEmpty(data.instagram)){
         if(!Validator.isURL(data.instagram)){
-            errors.linkedin = 'Not a valid URL';
+            errors.instagram = 'Not a valid URL';
     } 
 }
     return {

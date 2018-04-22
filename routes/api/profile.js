@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 const validateProfileInput = require('../../validation/profile');
-
+const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
 // Load the Profile Model
 const Profile = require('../../models/Profile');
 //Load the User Model
@@ -164,6 +165,69 @@ router.post('/',passport.authenticate('jwt',{session: false}),(req, res) => {
       });
     }
   });
+});
+
+/*@route POST /api/profile/experience*/ 
+/*@desc Add experience to the profile*/ 
+/*@access Private*/
+
+router.post('/experience', passport.authenticate('jwt',{session: false}), (req, res) => {
+
+  const {errors,isValid} = validateExperienceInput(req.body);
+
+  if(!isValid){
+    return res.status(400).json(errors);
+  }
+  /*Find the profile by the userid and unshift experience into it*/ 
+  Profile.findOne({user : req.user.id})
+  .then(profile => {
+
+    const expo = {
+      title : req.body.title,
+      company : req.body.company,
+      location : req.body.location,
+      from : req.body.from,
+      to : req.body.to,
+      current : req.body.current,
+      description : req.body.description
+    };
+    profile.experience.unshift(expo);
+    /*Commit changes to the profile*/ 
+    profile.save().then(profile => res.json(profile));
+
+  })
+
+});
+
+
+/*@route POST /api/profile/education*/ 
+/*@desc Add education to the profile*/ 
+/*@access Private*/
+
+router.post('/education',passport.authenticate('jwt',{session: false}),(req, res) => {
+
+  const {errors,isValid} = validateEducationInput(req.body);
+
+  if(!isValid){
+    return res.status(400).json(errors);
+  }
+  /*Find the profile and unshift the education into it*/
+  Profile.findOne({user: req.user.id})
+  .then(profile => {
+    const edu = {
+      school : req.body.school,
+      degree : req.body.degree,
+      fieldofstudy : req.body.fieldofstudy,
+      from : req.body.from,
+      to : req.body.to,
+      current : req.body.current,
+      description : req.body.description
+    };
+    // Unshift the new experience to the profile
+    profile.education.unshift(edu);
+    // Commit changes to the profile
+    profile.save().then(profile => res.json(profile));
+  }); 
 });
 
 module.exports = router;
