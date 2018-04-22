@@ -36,4 +36,100 @@ router.get('/',passport.authenticate('jwt',{session: false}),(req,res)=>{
 
 });  
 
+/*@route POST /api/profile */ 
+/*@desc Create or edit user profile*/ 
+/*@access Private*/
+
+router.post('/',passport.authenticate('jwt',{session: false}),(req, res) => {
+
+  //Get Field values
+  const profileFields = {};
+  
+  profileFields.user = req.user.id;
+  profileFields.handle = req.body.handle || '';
+  profileFields.company = req.body.company || '';
+  profileFields.website = req.body.website || '';
+  profileFields.location = req.body.location || '';
+  profileFields.bio = req.body.bio || '';
+  profileFields.status = req.body.status || '';
+  profileFields.github_username = req.body.github_username || '';
+
+  if(typeof req.body.skills !== 'undefined'){
+    profileFields.skills = req.body.skills.split(',');
+  }
+
+  // Social
+  profileFields.social = {};
+  profileFields.social.youtube = req.body.youtube || '';
+  profileFields.social.twitter = req.body.twitter || '';
+  profileFields.social.facebook = req.body.facebook || '';
+  profileFields.social.linkedin = req.body.linkedin || '';
+  profileFields.social.instagram = req.body.instagram || '';
+
+  /*Check for whether the profile already exists,
+  if so don't allow creation of the new profile but edit can be done*/
+  Profile.findOne({user : req.user.id})
+  .then(profile => {
+    if(profile){
+      // Update
+      Profile.findOneAndUpdate({user: req.user.id},{$set: profileFields},{new : true})
+      .then(profile => res.json(profile));
+    }
+    else {
+      /*No such profile exists*/
+      /*Create one*/
+      // Check if the handle exists
+      Profile.findOne({handle : profileFields.handle}) 
+      .then(profile => {
+        if(profile){
+          errors.handle = 'That handle already exists';
+          res.status(400).json(errors);
+        }
+        new Profile(profileFields).save().then(profile => res.json(profile));
+      });
+    }
+  });
+});
+
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
