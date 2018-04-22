@@ -84,5 +84,50 @@ router.delete('/:id',passport.authenticate('jwt',{session:false}),(req,res) => {
     });
 });
 
+/*@route POST /api/posts/like/:id*/ 
+/*@desc Like post*/ 
+/*@access Private*/ 
+
+router.post('/like/:id',passport.authenticate('jwt',{session:false}),(req, res) => {
+    Profile.findOne({user : req.user.id})
+    .then(profile => {
+        Post.findById(req.params.id)
+        .then(post => {
+            /*Check whether the user has already liked the post*/ 
+            if(post.likes.filter(like => like.user.toString() === req.user.id).length > 0){
+                return res.status(400).json({message : 'User already liked the post'});
+            }
+            /*Commit like for the user*/
+            post.likes.unshift({user: req.user.id}); 
+            /*Commit the post to the database*/
+            post.save().then(post => res.json(post)); 
+        })
+        .catch(err => res.status(404).json({message : 'No post found'}));
+    });
+
+/*@route POST api/posts/unlike/:id*/ 
+/*@desc Unlike the post*/ 
+/*@access Private*/ 
+
+router.post('/unlike/:id',passport.authenticate('jwt',{session:false}),(req, res) => {
+
+    Profile.findOne({user : req.user.id})
+    .then(profile => {
+        Post.findById(req.params.id)
+        .then(post => {
+            if(post.likes.filter(like => like.user.toString() === req.user.id).length === 0){
+                return res.status(400).json({message : 'You have not yet liked the post'});
+            }
+            //Get the remove index
+            const index = post.likes.map(like => like.user.toString()).indexOf(req.params.id);
+            //Splice out from the array
+            post.likes.splice(index,1);
+            // Commit the changes to the database
+            post.save().then(post => res.json(post));
+        
+        }).catch(err => res.status(404).json({message : 'No post found'}));
+    });
+});
+});
 
 module.exports = router;
