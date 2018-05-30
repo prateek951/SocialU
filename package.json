@@ -8,9 +8,9 @@
     "start": "node app.js",
     "server": "nodemon app.js",
     "frontend": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run frontend\""
   },
-  "repository": { 
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/prateek951/SocialU.git"
   },
