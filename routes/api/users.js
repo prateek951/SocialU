@@ -24,7 +24,6 @@ router.get("/test", (req, res) => {
 
 /*@route POST /api/users/register*/
 /*@desc Register the user*/
-
 /*@access Public*/
 
 router.post('/register',(req, res) => {

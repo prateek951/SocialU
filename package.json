@@ -4,17 +4,17 @@
   "description": "SocialU",
   "main": "app.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
+    "client-install": "npm install --prefix frontend",
     "start": "node app.js",
     "server": "nodemon app.js",
-    "client": "npm start --prefix client",
+    "frontend": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "repository": {
+  "repository": { 
     "type": "git",
     "url": "git+https://github.com/prateek951/SocialU.git"
   },
-  "author": "",
+  "author": "Prateek Madaan",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/prateek951/SocialU/issues"
