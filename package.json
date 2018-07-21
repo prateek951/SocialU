@@ -1,33 +1,25 @@
 {
-  "name": "socialu",
+  "name": "devhub",
   "version": "1.0.0",
-  "description": "SocialU",
-  "main": "app.js",
+  "description": "Social networking platform for developers",
+  "main": "server.js",
   "scripts": {
-    "client-install": "npm install --prefix frontend",
-    "start": "node app.js",
-    "server": "nodemon app.js",
-    "frontend": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run frontend\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/prateek951/SocialU.git"
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Prateek Madaan",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/prateek951/SocialU/issues"
-  },
-  "homepage": "https://github.com/prateek951/SocialU#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "concurrently": "^3.5.1",
     "express": "^4.16.3",
     "gravatar": "^1.6.0",
-    "jsonwebtoken": "^8.2.1",
-    "mongoose": "^5.0.15",
+    "jsonwebtoken": "^8.2.0",
+    "mongoose": "^5.0.12",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "validator": "^9.4.1"

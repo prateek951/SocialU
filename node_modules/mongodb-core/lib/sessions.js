@@ -39,9 +39,6 @@ class ClientSession extends EventEmitter {
     }
 
     this.operationTime = null;
-
-    this.explicit = !!options.explicit;
-    this.owner = options.owner;
   }
 
   /**

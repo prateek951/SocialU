@@ -1,4 +1,4 @@
 module.exports = {
-  mongoURI: 'mongodb://localhost:27017/socialu',
-  secretOrKey : 'secretmaster'
+  mongoURI: 'mongodb://prateek951:prateek951@ds117148.mlab.com:17148/devhub',
+  secretOrKey: 'secret'
 };
