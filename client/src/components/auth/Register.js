@@ -52,12 +52,24 @@ class Register extends Component {
     return (
       <form className="ui form" onSubmit={this.handleSubmit}>
         <div className="ui grid">
-          <div className="three wide column">
-              {/* Empty Space */}
-          </div>
+          <div className="three wide column">{/* Empty Space */}</div>
           <div className="ten wide column">
             <h1>Register</h1>
-            <br/>
+            <br />
+            <div className={errors.name ? "field error" : "field"}>
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your Full Name"
+                //   ref={input => this.name = input}
+                value={this.state.name}
+                onChange={this.handleStringChange}
+              />
+              <br />
+              <FormInlineMessage content={errors.name} type="error" />
+            </div>
             <div className={errors.email ? "field error" : "field"}>
               <label htmlFor="email">Email</label>
               <input
@@ -69,7 +81,7 @@ class Register extends Component {
                 value={this.state.email}
                 onChange={this.handleStringChange}
               />
-              <br/>
+              <br />
               <FormInlineMessage content={errors.email} type="error" />
             </div>
             <div className={errors.password ? "field error" : "field"}>
@@ -82,7 +94,7 @@ class Register extends Component {
                 value={this.state.password}
                 onChange={this.handleStringChange}
               />
-              <br/>
+              <br />
               <FormInlineMessage content={errors.password} type="error" />
             </div>
             <div className={errors.password2 ? "field error" : "field"}>
@@ -95,10 +107,10 @@ class Register extends Component {
                 value={this.state.password2}
                 onChange={this.handleStringChange}
               />
-              <br/>
+              <br />
               <FormInlineMessage content={errors.password2} type="error" />
             </div>
-            <br/>
+            <br />
             <div className="ui fluid buttons">
               <button className="ui primary button" type="submit">
                 Sign Up
@@ -109,9 +121,7 @@ class Register extends Component {
               </Link>
             </div>
           </div>
-          <div className="three wide column">
-            {/* Empty Space */}
-          </div>
+          <div className="three wide column">{/* Empty Space */}</div>
         </div>
       </form>
     );
