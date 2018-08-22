@@ -1,32 +1,34 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classnames from 'classnames';
-import { loginUser } from '../../actions/authActions';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
+import FormInlineMessage from "./FormInlineMessage";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {}
     };
     this.bindEvents();
   }
   bindEvents() {
-      this.onChange = this.onChange.bind(this);
-      this.onSubmit = this.onSubmit.bind(this);
+    this.handleStringChange = this.handleStringChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
+      this.props.history.push("/dashboard");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
+      this.props.history.push("/dashboard");
     }
 
     if (nextProps.errors) {
@@ -34,7 +36,7 @@ class Login extends Component {
     }
   }
 
-  onSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
 
     const userData = {
@@ -45,7 +47,7 @@ class Login extends Component {
     this.props.loginUser(userData);
   }
 
-  onChange(e) {
+  handleStringChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
@@ -53,51 +55,53 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="login">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Login</h1>
-              <p className="lead text-center">
-                Sign in to your DevHub Account
-              </p>
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    className={classnames('form-control form-control-lg', {
-                      'is-invalid': errors.email
-                    })}
-                    placeholder="Email Address"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                  />
-                  {errors.email && (
-                    <div className="invalid-feedback">{errors.email}</div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    className={classnames('form-control form-control-lg', {
-                      'is-invalid': errors.password
-                    })}
-                    placeholder="Password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.onChange}
-                  />
-                  {errors.password && (
-                    <div className="invalid-feedback">{errors.password}</div>
-                  )}
-                </div>
-                <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
+      <form className="ui form" onSubmit={this.handleSubmit}>
+        <div className="ui grid">
+          <div className="three wide column" />
+          <div className="ten wide column">
+            <h1>Login</h1>
+            <br/>
+            <div className={errors.email ? "field error" : "field"}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Your Email Address"
+                //   ref={input => this.name = input}
+                value={this.state.email}
+                onChange={this.handleStringChange}
+              />
+              <br/>
+              <FormInlineMessage content={errors.email} type="error" />
+            </div>
+            <div className={errors.password ? "field error" : "field"}>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Make it secure"
+                value={this.state.password}
+                onChange={this.handleStringChange}
+              />
+              <br/>
+              <FormInlineMessage content={errors.password} type="error" />
+            </div>
+            <br/>
+            <div className="ui fluid buttons">
+              <button className="ui primary button" type="submit">
+                Login
+              </button>
+              <div className="or" />
+              <Link to="/" className="ui button">
+                Cancel
+              </Link>
             </div>
           </div>
         </div>
-      </div>
+        <div className="three wide column" />
+      </form>
     );
   }
 }
@@ -113,4 +117,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
