@@ -17,7 +17,7 @@ class Login extends Component {
   }
   bindEvents() {
     this.handleStringChange = this.handleStringChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +36,7 @@ class Login extends Component {
     }
   }
 
-  handleSubmit(e) {
+  handleLogin(e) {
     e.preventDefault();
 
     const userData = {
@@ -52,10 +52,10 @@ class Login extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, email, password  } = this.state;
 
     return (
-      <form className="ui form" onSubmit={this.handleSubmit}>
+      <form className="ui form" onSubmit={this.handleLogin}>
         <div className="ui grid">
           <div className="three wide column" />
           <div className="ten wide column">
@@ -68,8 +68,7 @@ class Login extends Component {
                 id="email"
                 name="email"
                 placeholder="Your Email Address"
-                //   ref={input => this.name = input}
-                value={this.state.email}
+                value={email}
                 onChange={this.handleStringChange}
               />
               <br/>
@@ -82,7 +81,7 @@ class Login extends Component {
                 id="password"
                 name="password"
                 placeholder="Make it secure"
-                value={this.state.password}
+                value={password}
                 onChange={this.handleStringChange}
               />
               <br/>

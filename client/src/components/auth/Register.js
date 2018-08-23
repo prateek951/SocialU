@@ -20,7 +20,7 @@ class Register extends Component {
   }
   bindEvents() {
     this.handleStringChange = this.handleStringChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +39,7 @@ class Register extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleSubmit(e) {
+  handleRegister(e) {
     e.preventDefault();
     const { name, email, password, password2 } = this.state;
     const newUser = { name, email, password, password2 };
@@ -47,10 +47,10 @@ class Register extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, name, email, password, password2 } = this.state;
 
     return (
-      <form className="ui form" onSubmit={this.handleSubmit}>
+      <form className="ui form" onSubmit={this.handleRegister}>
         <div className="ui grid">
           <div className="three wide column">{/* Empty Space */}</div>
           <div className="ten wide column">
@@ -63,8 +63,7 @@ class Register extends Component {
                 id="name"
                 name="name"
                 placeholder="Your Full Name"
-                //   ref={input => this.name = input}
-                value={this.state.name}
+                value={name}
                 onChange={this.handleStringChange}
               />
               <br />
@@ -78,7 +77,7 @@ class Register extends Component {
                 name="email"
                 placeholder="Your Email Address"
                 //   ref={input => this.name = input}
-                value={this.state.email}
+                value={email}
                 onChange={this.handleStringChange}
               />
               <br />
@@ -91,7 +90,7 @@ class Register extends Component {
                 id="password"
                 name="password"
                 placeholder="Make it secure"
-                value={this.state.password}
+                value={password}
                 onChange={this.handleStringChange}
               />
               <br />
@@ -104,7 +103,7 @@ class Register extends Component {
                 name="password2"
                 id="password2"
                 placeholder="Make it secure"
-                value={this.state.password2}
+                value={password2}
                 onChange={this.handleStringChange}
               />
               <br />
