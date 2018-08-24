@@ -22,7 +22,7 @@ class Profile extends Component {
     }
   }
 
-  render() {
+  render() {  
     const { profile, loading } = this.props.profile;
     let profileContent;
 

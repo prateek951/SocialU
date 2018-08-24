@@ -35,7 +35,7 @@ class PostItem extends Component {
           <div className="col-md-2">
             <Link to="/dashboard">
               <img
-                className="rounded-circle d-none d-md-block"
+                className="square d-none d-md-block"
                 src={post.avatar}
                 alt=""
               />
@@ -50,11 +50,12 @@ class PostItem extends Component {
                 <button
                   onClick={this.onLikeClick.bind(this, post._id)}
                   type="button"
-                  className="btn btn-light mr-1"
+                  className="btn btn-dark mr-1"
+                  style={{borderRadius: '50px'}}
                 >
                   <i
                     className={classNames('fas fa-thumbs-up', {
-                      'text-info': this.findUserLike(post.likes)
+                      'text-primary': this.findUserLike(post.likes)
                     })}
                   />
                   <span className="badge badge-light">{post.likes.length}</span>
@@ -63,10 +64,11 @@ class PostItem extends Component {
                   onClick={this.onUnlikeClick.bind(this, post._id)}
                   type="button"
                   className="btn btn-light mr-1"
+                  style={{borderRadius: '50px'}}
                 >
                   <i className="text-secondary fas fa-thumbs-down" />
                 </button>
-                <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
+                <Link to={`/post/${post._id}`} className="btn btn-success mr-1">
                   Comments
                 </Link>
                 {post.user === auth.user.id ? (
