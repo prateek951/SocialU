@@ -1,5 +1,7 @@
 # SocialU
-MERN Stack application Social Network Using Reactjs Redux as # Project Title
+MERN Stack application Social Network Using Reactjs Redux as the Frontend and Expressjs MongoDB as the backend 
+
+https://user-images.githubusercontent.com/31117403/44606620-59d46b00-a80b-11e8-93ce-e14941c5cd28.png
 
 ## Getting Started
 
