@@ -8,10 +8,10 @@ class ProfileItem extends Component {
     const { profile } = this.props;
 
     return (
-      <div className="card card-body bg-light mb-3">
+      <div className="card card-body bg-blue mb-3">
         <div className="row">
           <div className="col-2">
-            <img src={profile.user.avatar} alt="" className="rounded-circle" />
+            <img src={profile.user.avatar} alt={profile.user.name} className="square" />
           </div>
           <div className="col-lg-6 col-md-4 col-8">
             <h3>{profile.user.name}</h3>
@@ -35,7 +35,7 @@ class ProfileItem extends Component {
             <ul className="list-group">
               {profile.skills.slice(0, 4).map((skill, index) => (
                 <li key={index} className="list-group-item">
-                  <i className="fa fa-check pr-1" />
+                  <i className="fa fa-star pr-1" aria-hidden="true"/>
                   {skill}
                 </li>
               ))}
