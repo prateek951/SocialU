@@ -17,14 +17,14 @@ class Landing extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
-                <h1 className="display-3 mb-4">Developer Connector</h1>
-                <p className="lead">
+                <h1 className="display-3 mb-4">SocialU</h1>
+                <h3 className="lead">
                   {' '}
-                  Create a developer profile/portfolio, share posts and get help
-                  from other developers
-                </p>
+                  A platform to socialize and interact with the like-minded people who have
+                  a desire to change the world as a social good.
+                </h3>
                 <hr />
-                <Link to="/register" className="btn btn-lg btn-info mr-2">
+                <Link to="/register" className="btn btn-lg btn-dark mr-2">
                   Sign Up
                 </Link>
                 <Link to="/login" className="btn btn-lg btn-light">
